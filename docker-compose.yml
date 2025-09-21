@@ -1,0 +1,51 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      Postgres__ConnectionString: Host=postgres;Port=5432;Database=vibecoding;Username=postgres;Password=postgres
+      Redis__ConnectionString: redis:6379
+      AzureBlob__ConnectionString: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
+      Jwt__Issuer: VibeCoding
+      Jwt__Audience: VibeCodingClients
+      Jwt__SecretKey: SuperSecretKeyForLocalDocker123!
+      Jwt__AccessTokenLifetimeMinutes: "60"
+      Jwt__RefreshTokenLifetimeDays: "7"
+      Telemetry__UserHashSalt: docker-dev-salt
+      Admin__Email: admin@local.test
+      Admin__Password: Passw0rd!
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+      - azurite
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vibecoding
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --save ""
+    ports:
+      - "6379:6379"
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    restart: unless-stopped
+    command: azurite-blob --blobHost 0.0.0.0 --loose
+    ports:
+      - "10000:10000"
+volumes:
+  postgres-data:

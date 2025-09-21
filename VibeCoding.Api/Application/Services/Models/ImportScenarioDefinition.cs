@@ -1,0 +1,15 @@
+using VibeCoding.Api.Domain.Enums;
+
+namespace VibeCoding.Api.Application.Services.Models;
+
+public class ImportScenarioDefinition
+{
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public ScenarioDifficulty Difficulty { get; set; } = ScenarioDifficulty.Medium;
+    public ScenarioOutcome CorrectOutcome { get; set; } = ScenarioOutcome.Fake;
+    public string MediaBlobName { get; set; } = string.Empty;
+    public IList<string> Tags { get; set; } = new List<string>();
+    public string? ExternalReference { get; set; }
+        = null;
+}
