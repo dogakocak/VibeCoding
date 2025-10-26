@@ -23,22 +23,22 @@ This repository contains the .NET 9 backend for the Visual Phishing Training exp
 
 ### Local Development
 1. Restore and build:
-   `ash
+   `bash
    dotnet build
    `
 2. Apply database migrations (add new ones as needed):
-   `ash
+   `bash
    dotnet ef migrations add InitialCreate -p VibeCoding.Api -s VibeCoding.Api
    dotnet ef database update -p VibeCoding.Api -s VibeCoding.Api
    `
 3. Run the API:
-   `ash
+   `bash
    dotnet run --project VibeCoding.Api
    `
 4. OpenAPI docs are available at /openapi/v1.json (development only).
 
 ### Running with Docker Compose
-`ash
+`bash
 docker compose up --build
 `
 This starts the API at http://localhost:8080 along with PostgreSQL, Redis, and Azurite. Default credentials:
@@ -56,7 +56,7 @@ All sensitive values are provided via environment variables. Key settings includ
 Use [User Secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) during development to avoid committing secrets.
 
 ### Testing
-`ash
+`bash
 dotnet test --no-build
 `
 
